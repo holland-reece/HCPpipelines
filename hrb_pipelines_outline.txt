@@ -5,7 +5,11 @@ Holland Brown
 Updated 2023-02-08
 Created 2023-02-08
 
+See HCP Pipelines Installation and Usage Instructions:
+https://github.com/Washington-University/HCPpipelines/wiki/Installation-and-Usage-Instructions
+
 ---------------------------------------------------------------------
+
 - Liston ME fMRI Preprocessing Pipeline scripts predicated on these pipelines
 - before running, see example file structure required
 
@@ -16,11 +20,12 @@ Preprocessing -------------------------------------------------------
     2. FreeSurfer.sh
     3. PostFreeSurfer.sh
 
-2. Functional Preprocessing Pipeline
+2. Functional Preprocessing Pipeline (after struct preproc)
+    - dirs are created for task ana during this step, so know how tasks will be modeled/analyzed
     1. Generic fMRI volume preprocessing (always do this step before surface preproc)
     2. Generic fMRI surface preprocessing
 
-Processing ----------------------------------------------------------
+Optional Processing ---------------------------------------------------
 
 3. ICA FIX Pipeline Pipeline (after functional preprocessing)
     - ICA-based denoising pipline
@@ -30,6 +35,35 @@ Processing ----------------------------------------------------------
     - re-registration of cortical surfaces
     - uses cortical folding, myelin map, and rsfMRI data
 
-5. Task Analysis, i.e. tfMRI Processing (after functional preprocessing)
-    - 
+Task Analysis, i.e. tfMRI Processing -------------------------------------
+
+5. Preparing for Level 1 tfMRI Analysis (after functional preprocessing)
+    - also recommended to do ICA FIX and temporal ICA (tICA) before this step
+    - Level 1 is for within-subs, within-runs ana
+
+    1. Level 1 FEAT setup (FSF) files for ea direction of fnctl task
+        - use templates in HCP directory: ${HCPPIPEDIR}/Examples/fsf_templates
+        - num time pts in template must match num time pts in corresponding scan
+        - see Mumford FSL Tutorial notes for search-and-replace script to create FSF files
+        - copy template for a scan into: MNINonLinear/Results/<task>
+        - make sure num time pts matches num volumes for the scan
+        - can use script: ${HCPPIPEDIR}/Examples/Scripts/generate_level1_fsf.sh to extract num time pts from img file and set num vols in FSF file
+        - must do this for every task direction so there is an FSF file for each
+
+    2. E-Prime EV files in MNINonLinear/Results subdir for ea task
+        - this subdirectory is created during Functional Preprocessing Pipeline, so can't do this until after that
+        - each task has its own dir, so must do this for each
+        - also, this means I have to understand how the tasks will be modeled before functional preprocessing
+        - use script: ${HCPPIPEDIR}/Examples/Scripts/copy_evs_into_results.sh to copy EV files to this directory
+
+6. Preparing for Level 2 tfMRI Analysis (after functional preprocessing)
+    1. Level 2 FEAT setup files for ea task direction for which there will be level 2 ana
+        - must be in dir: <StudyFolder>/100307/MNINonLinear/Results/<task>/<subj><task>.fsf
+        - can copy template: ${HCPPIPEDIR}/Examples/fsf_templates/tfMRI_EMOTION_hp200_s4_level2.fsf to run example analysis
+        - likely will have to create level 2 results directory: <StudyFolder>/100307/MNINonLinear/Results/<Study Name>
+
+Diffusion Preprocessing -----------------------------------------------------------
+- requires structural preprocessing already complete
+- see script: ${HCPPIPEDIR}/Examples/Scripts/DiffusionPreprocessingBatch.sh is similar to struct preprocessing scripts
+
 
