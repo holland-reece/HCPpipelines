@@ -19,8 +19,19 @@ Preprocessing -------------------------------------------------------
     1. PreFreeSurfer.sh
         - see script: ${HCPPIPEDIR}/Examples/Scripts/PreFreeSurferPipelineBatch.sh
         - it runs a batch of subj data through this part of the pipeline
-        - edit StudyFolder vbl --> path to folder that will contain all subjs' data within your login/home dir
-        - example StudyFolder dir: "${HOME}/projects/Pipelines_ExampleData" 
+        1. edit StudyFolder vbl --> path to folder that will contain all subjs' data within your login/home dir
+            - example StudyFolder dir: "${HOME}/projects/Pipelines_ExampleData"
+        2. edit Subjlist vbl >> space delimited list of subj ids to be run by PreFreeSurfer
+            - can also submit a string with one subj id if you need to run only one subj
+            - script will look for subj id folders in specified StudyFolder dir for data to run
+        3. set EnvironmentScript vbl >> script that sets up env vbls
+            - see example env setup: Examples/Scripts/SetUpHCPPipeline.sh
+            - update script to reflect where HCP Pipelines installed
+        4. set QUEUE vbl to reflect proc queue if submitting job to scheduler
+            - queue names are determined by cluster setup
+            - leave vbl empty to run locally
+        5. Gradient Distortion Coefficients
+            - set to contain either path to gradient coeffs file or "NONE" to skip gradient distortion correction
 
     2. FreeSurfer.sh
     3. PostFreeSurfer.sh
