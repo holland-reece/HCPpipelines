@@ -17,6 +17,11 @@ Preprocessing -------------------------------------------------------
 
 1. Structural Preprocessing Pipeline
     1. PreFreeSurfer.sh
+        - see script: ${HCPPIPEDIR}/Examples/Scripts/PreFreeSurferPipelineBatch.sh
+        - it runs a batch of subj data through this part of the pipeline
+        - edit StudyFolder vbl --> path to folder that will contain all subjs' data within your login/home dir
+        - example StudyFolder dir: "${HOME}/projects/Pipelines_ExampleData" 
+
     2. FreeSurfer.sh
     3. PostFreeSurfer.sh
 
