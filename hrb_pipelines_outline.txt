@@ -1,0 +1,35 @@
+HCP Preprocessing Pipelines: Notes
+
+Holland Brown
+
+Updated 2023-02-08
+Created 2023-02-08
+
+---------------------------------------------------------------------
+- Liston ME fMRI Preprocessing Pipeline scripts predicated on these pipelines
+- before running, see example file structure required
+
+Preprocessing -------------------------------------------------------
+
+1. Structural Preprocessing Pipeline
+    1. PreFreeSurfer.sh
+    2. FreeSurfer.sh
+    3. PostFreeSurfer.sh
+
+2. Functional Preprocessing Pipeline
+    1. Generic fMRI volume preprocessing (always do this step before surface preproc)
+    2. Generic fMRI surface preprocessing
+
+Processing ----------------------------------------------------------
+
+3. ICA FIX Pipeline Pipeline (after functional preprocessing)
+    - ICA-based denoising pipline
+    - regresses out motion timeseries and artifact independent components
+
+4. MSAII Pipeline (after functional preprocessing and ICA FIX processing)
+    - re-registration of cortical surfaces
+    - uses cortical folding, myelin map, and rsfMRI data
+
+5. Task Analysis, i.e. tfMRI Processing (after functional preprocessing)
+    - 
+
